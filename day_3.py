@@ -12,7 +12,7 @@ def get_number_of_free_spaces(batteries, switched_on, index):
     )
 
 
-def switch(batteries, number_batteries_on):
+def switch_batteries_on(batteries, number_batteries_on):
     batteries = [int(x) for x in batteries]
     switched_on = [False] * len(batteries)
     bats = batteries.copy()
@@ -42,7 +42,7 @@ def solve(data, number_of_batteries=2):
     for batteries in data:
         batteries = batteries.strip("\n")
 
-        summe += switch(batteries, number_of_batteries)
+        summe += switch_batteries_on(batteries, number_of_batteries)
 
     return summe
 

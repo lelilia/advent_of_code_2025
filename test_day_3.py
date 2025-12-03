@@ -1,61 +1,27 @@
 import pytest
-from day_3 import switch, get_number_of_free_spaces
+from day_3 import switch_batteries_on, get_number_of_free_spaces
 
 
-def test_switch():
-    batteries = "987654321111111"
-    res = switch(batteries, 2)
-    exp = 98
-    assert res == exp
+@pytest.mark.parametrize(
+    "batteries, cnt_on, expected",
+    (
+        ("987654321111111", 2, 98),
+        ("987654321111111", 12, 987654321111),
+        ("811111111111119", 2, 89),
+        ("811111111111119", 12, 811111111119),
+        ("234234234234278", 2, 78),
+        ("234234234234278", 12, 434234234278),
+        ("3322343713826221125922247222221263232222632332333222231223221432225352522227622122311323531262273513", 2, 97),
+        ("3322343713826221125922247222221263232222632332333222231223221432225352522227622122311323531262273513", 12, 977662273513)
+    ),
+)
+def test_par(batteries, cnt_on, expected):
+    assert ( res := switch_batteries_on(batteries, cnt_on)) == expected, f"Expected {expected}, got {res} for {batteries}"
 
 
-def test_switch2():
-    batteries = "987654321111111"
-    res = switch(batteries, 12)
-    exp = 987654321111
-    assert res == exp
 
 
-def test_switch3():
-    batteries = "811111111111119"
-    res = switch(batteries, 2)
-    exp = 89
-    assert res == exp
 
-
-def test_switch4():
-    batteries = "811111111111119"
-    res = switch(batteries, 12)
-    exp = 811111111119
-    assert res == exp
-
-
-def test_switch5():
-    batteries = "234234234234278"
-    res = switch(batteries, 2)
-    exp = 78
-    assert res == exp
-
-
-def test_switch6():
-    batteries = "234234234234278"
-    res = switch(batteries, 12)
-    exp = 434234234278
-    assert res == exp
-
-
-def test_switch7():
-    batteries = "3322343713826221125922247222221263232222632332333222231223221432225352522227622122311323531262273513"
-    res = switch(batteries, 12)
-    exp = 977662273513
-    assert res == exp
-
-
-def test_switch8():
-    batteries = "5533541345563534455432555454434414411366573335634663523353143544535254433516534123415359511733347333"
-    res = switch(batteries, 12)
-    exp = 951733347333
-    assert res == exp
 
 
 def test_number_of_free_spaces():
