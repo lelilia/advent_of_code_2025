@@ -10,17 +10,17 @@ def check_range(left, right, part):
 
     seen = set()
     left_str, right_str = str(left), str(right)
-    start_chuck = int(left_str[:len(left_str) // 2]) if len(left_str) > 1 else 1
-    end_chunk = int(right_str[:(len(right_str) + 1)//2])
+    start_chuck = int(left_str[: len(left_str) // 2]) if len(left_str) > 1 else 1
+    end_chunk = int(right_str[: (len(right_str) + 1) // 2])
 
-    for chunk in range(start_chuck, end_chunk +1):
+    for chunk in range(start_chuck, end_chunk + 1):
         id = int(str(chunk) + str(chunk))
         if left <= id <= right:
             seen.add(id)
 
         if part == 2:
-            for bit in range(1, len(str(chunk))+1):
-                for length in range(len(left_str)//bit, len(right_str)//bit + 1):
+            for bit in range(1, len(str(chunk)) + 1):
+                for length in range(len(left_str) // bit, len(right_str) // bit + 1):
                     id = int(str(chunk)[:bit] * length)
                     if left <= id <= right:
                         seen.add(id)
