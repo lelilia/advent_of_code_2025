@@ -11,13 +11,6 @@ def regex_check(id: str, n_times: int = 2) -> int:
     return len(res)
 
 
-def check_with_regex(left: int, right: int) -> int:
-    sum = 0
-    left_str, right_str = str(left), str(right)
-
-    return sum
-
-
 def check_valid_1(left, right):
     sum_v = 0
     len_left = len(str(left))
