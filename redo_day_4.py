@@ -1,8 +1,9 @@
 # Advent of Code 2025 - Day 4
 
 import time
-import numpy as np
 
+import numpy as np
+from scipy.signal import convolve2d
 
 INPUT = "input4"
 # INPUT = "testinput4.txt"
@@ -16,6 +17,24 @@ def load_diagram(data, pad=True):
     if pad:
         diagram = np.pad(diagram, 1, constant_values=0)
     return diagram
+
+
+def find_rolles(diagram):
+    kernel = np.array([[1, 1, 1], [1, 0, 1], [1, 1, 1]])
+    c = convolve2d(diagram, kernel, "same")
+    return (c < 4) & diagram
+
+
+def with_convolve(data, part):
+    diagram = load_diagram(data, False)
+
+    if part == 1:
+        return np.sum(find_rolles(diagram))
+    else:
+        old_diagram = diagram.copy()
+        while (to_remove := find_rolles(diagram)).any():
+            diagram -= to_remove
+        return np.sum(old_diagram - diagram)
 
 
 def numpy_part_1(data):
@@ -37,7 +56,6 @@ def numpy_part_1(data):
 
 
 def numpy_part_2(data):
-
     diagram = load_diagram(data)
     n, m = diagram.shape
     cnt_moved = 1
@@ -126,7 +144,7 @@ def brute_force(data, part):
             for y, cell in enumerate(row):
                 if cell == "@":
                     cnt = 0
-                    for (dx, dy) in NEIGBORS:
+                    for dx, dy in NEIGBORS:
                         if 0 <= x + dx < len(map) and 0 <= y + dy < len(map[0]):
                             if map[x + dx][y + dy] == "@":
                                 cnt += 1
@@ -137,7 +155,6 @@ def brute_force(data, part):
         if part == 1:
             return res
         for x, y in to_remove:
-
             map[x][y] = "."
     return res
 
@@ -222,4 +239,11 @@ if __name__ == "__main__":
     )
     print(
         f"Part 2 - with_numpy:  {solve(data, 2, with_numpy)}\t\t{-t7 + (t8 := time.time())}s"
+    )
+    print()
+    print(
+        f"Part 1 - convolve:    {solve(data, 1, with_convolve)}\t\t{-t8 + (t9 := time.time())}s"
+    )
+    print(
+        f"Part 2 - convolve:    {solve(data, 2, with_convolve)}\t\t{-t9 + (t10 := time.time())}s"
     )
